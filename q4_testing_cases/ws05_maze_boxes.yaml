@@ -3,18 +3,18 @@ bounds:
   y: [0, 50]
   z: [0, 50]
 
-# 起点排布在左下区域，不与墙相交
+# 起点排布在左下区域，确保不与 y=15 的水平墙相交（墙带 y∈[14,16]）
 initial_configuration:
   - [2, 6, 1]
   - [2, 8, 1]
   - [2, 10, 1]
   - [2, 12, 1]
-  - [2, 14, 1]
+  - [2, 13.5, 1]
   - [4, 6, 1]
   - [4, 8, 1]
   - [4, 10, 1]
   - [4, 12, 1]
-  - [4, 14, 1]
+  - [4, 13.5, 1]
 
 obstacles:
   # 垂直走廊墙（细长 box），在 x=12,22,32,42 形成格栅
@@ -38,9 +38,10 @@ obstacles:
     size: [2, 46, 6]
     rotation: [0, 0, 0]
     color: red
+
   # 水平墙（留出通口），在 y=15,25,35；通过缩短长度制造“门”
   - type: box
-    position: [25, 15, 3]  # 中间留门：在 x≈25 附近由长度中断
+    position: [25, 15, 3]   # 中间留门：在 x≈25 附近由长度中断
     size: [18, 2, 6]
     rotation: [0, 0, 0]
     color: red
@@ -54,8 +55,9 @@ obstacles:
     size: [8, 2, 6]
     rotation: [0, 0, 0]
     color: red
+
   - type: box
-    position: [15, 25, 3]  # 在不同列制造通口
+    position: [15, 25, 3]   # 在不同列制造通口
     size: [10, 2, 6]
     rotation: [0, 0, 0]
     color: red
@@ -64,6 +66,7 @@ obstacles:
     size: [10, 2, 6]
     rotation: [0, 0, 0]
     color: red
+
   - type: box
     position: [25, 35, 3]
     size: [18, 2, 6]
@@ -80,6 +83,7 @@ obstacles:
     rotation: [0, 0, 0]
     color: red
 
+# 终点在右侧，同样避免贴近 y=15 的水平墙
 goals:
   - position: [48, 6, 2]
     radius: 1.0
@@ -89,7 +93,7 @@ goals:
     radius: 1.0
   - position: [48, 12, 2]
     radius: 1.0
-  - position: [48, 14, 2]
+  - position: [48, 13.5, 2]
     radius: 1.0
   - position: [46, 6, 2]
     radius: 1.0
@@ -99,5 +103,5 @@ goals:
     radius: 1.0
   - position: [46, 12, 2]
     radius: 1.0
-  - position: [46, 14, 2]
+  - position: [46, 13.5, 2]
     radius: 1.0

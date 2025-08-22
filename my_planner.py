@@ -790,30 +790,30 @@ if __name__ == "__main__":
     # 简单自测（如需）
     # sim = MultiDrone(num_drones=1, environment_file=create_test_environment(1, obstacles_count=0))
 
-    # ws00_free.yaml（基线：1 架无人机、无遮挡）
+    # ws00_free.yaml（基线：1 架无人机、无遮挡）能跑
     # sim = MultiDrone(num_drones=1, environment_file="q4_testing_cases/ws00_free.yaml")
 
-    # ws01_multi_no_obst.yaml（6 架、无遮挡，仅考察多机耦合）
+    # ws01_multi_no_obst.yaml（6 架、无遮挡，仅考察多机耦合）能跑
     # sim = MultiDrone(num_drones=6, environment_file="q4_testing_cases/ws01_multi_no_obst.yaml")
 
-    # ws02_sparse_spheres.yaml（6 架、稀疏球形障碍）
+    # ws02_sparse_spheres.yaml（6 架、稀疏球形障碍）能跑
     # sim = MultiDrone(num_drones=6, environment_file="q4_testing_cases/ws02_sparse_spheres.yaml")
 
-    # ws03_corridor_narrow.yaml（6 架、单一窄通道——经典“狭窄通道”）
+    # ws03_corridor_narrow.yaml（6 架、单一窄通道——经典“狭窄通道”）跑不动！
     # sim = MultiDrone(num_drones=6, environment_file="q4_testing_cases/ws03_corridor_narrow.yaml")
 
     # ws04_moderate_clutter.yaml（8 架、中等密度随机球障）
     # sim = MultiDrone(num_drones=8, environment_file="q4_testing_cases/ws04_moderate_clutter.yaml")
 
-    # ws05_maze_boxes.yaml（10 架、箱体墙形成迷宫/走廊网络）
+    # ws05_maze_boxes.yaml（10 架、箱体墙形成迷宫/走廊网络）Invalid start 跑不动！
     # sim = MultiDrone(num_drones=10, environment_file="q4_testing_cases/ws05_maze_boxes.yaml")
 
-    # ws06_bridge_test.yaml（12 架、“bridge test” 狭缝连通）
-    # sim = MultiDrone(num_drones=12, environment_file="q4_testing_cases/ws06_bridge_test.yaml")
+    # ws06_bridge_test.yaml（2 架、“bridge test” 狭缝连通）跑不了
+    sim = MultiDrone(num_drones=2, environment_file="q4_testing_cases/ws06_bridge_test.yaml")
 
-    # ws07_3d_stacks.yaml（12 架、3D 立体货架/圆柱桩，强调垂直机动）
-    sim = MultiDrone(num_drones=12, environment_file="q4_testing_cases/ws07_3d_stacks.yaml")
-
+    # ws07_3d_stacks.yaml（12 架、3D 立体货架/圆柱桩，强调垂直机动）不能跑
+    # sim = MultiDrone(num_drones=12, environment_file="q4_testing_cases/ws07_3d_stacks.yaml")
+    # WARNING: Solution path validation failed! 不存在这样的路径莫
 
     my_planner(sim)
 

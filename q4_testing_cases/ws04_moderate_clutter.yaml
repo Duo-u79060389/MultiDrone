@@ -1,44 +1,75 @@
 bounds:
-  x: [0, 50]
-  y: [0, 50]
-  z: [0, 50]
+  x: [0, 50] # x-bounds
+  y: [0, 50] # y-bounds
+  z: [0, 50] # z-bounds
 
-initial_configuration:
-  - [2, 6, 1]
-  - [2, 8, 1]
-  - [2, 10, 1]
-  - [2, 12, 1]
-  - [2, 14, 1]
-  - [2, 16, 1]
-  - [2, 18, 1]
-  - [2, 20, 1]
+initial_configuration: [[2, 6, 1], [2, 8, 1], [2, 10, 1], [2, 12, 1], [2, 14, 1], [2, 16, 1], [2, 18, 1], [2, 20, 1]] # The initial configuration (3D position) of all drones
 
 obstacles:
-  - type: sphere {position: [16, 12, 2], radius: 1.8, color: red}
-  - type: sphere {position: [19, 18, 2], radius: 1.6, color: red}
-  - type: sphere {position: [22, 10, 2], radius: 2.0, color: red}
-  - type: sphere {position: [26, 16, 3], radius: 1.7, color: red}
-  - type: sphere {position: [30, 13, 2], radius: 2.0, color: red}
-  - type: sphere {position: [33, 20, 2], radius: 1.9, color: red}
-  - type: sphere {position: [36, 15, 2], radius: 1.8, color: red}
-  - type: sphere {position: [28, 28, 3], radius: 2.1, color: red}
-  - type: sphere {position: [34, 30, 2], radius: 1.7, color: red}
-  - type: sphere {position: [40, 22, 2], radius: 1.9, color: red}
+  - type: sphere
+    position: [14, 12, 3]
+    radius: 3.5 # Larger radius, low layer
+    color: red
+
+  - type: sphere
+    position: [20, 20, 6]
+    radius: 4.0
+    color: red
+
+  - type: sphere
+    position: [25, 8, 12]
+    radius: 5.0 # Mid layer, bigger
+    color: red
+
+  - type: sphere
+    position: [32, 18, 15]
+    radius: 4.5
+    color: red
+
+  - type: sphere
+    position: [28, 30, 20]
+    radius: 5.5
+    color: red
+
+  - type: sphere
+    position: [36, 12, 25]
+    radius: 4.2
+    color: red
+
+  - type: sphere
+    position: [22, 35, 28]
+    radius: 3.8
+    color: red
+
+  - type: sphere
+    position: [30, 40, 32]
+    radius: 5.0
+    color: red
+
+  - type: sphere
+    position: [40, 25, 36]
+    radius: 4.6
+    color: red
+
+  - type: sphere
+    position: [18, 28, 42]
+    radius: 5.2 # High layer
+    color: red
 
 goals:
-  - position: [48, 6, 2]
-    radius: 1.0
-  - position: [48, 8, 2]
-    radius: 1.0
-  - position: [48, 10, 2]
-    radius: 1.0
-  - position: [48, 12, 2]
-    radius: 1.0
-  - position: [48, 14, 2]
-    radius: 1.0
-  - position: [48, 16, 2]
-    radius: 1.0
-  - position: [48, 18, 2]
-    radius: 1.0
-  - position: [48, 20, 2]
-    radius: 1.0
+  - position: [48, 6, 3] # Low goal
+    radius: 1.2
+  - position: [48, 10, 12] # Mid goal
+    radius: 1.2
+  - position: [48, 14, 20] # Mid goal
+    radius: 1.2
+  - position: [48, 18, 8] # Low-mid
+    radius: 1.2
+  - position: [48, 12, 28] # Higher
+    radius: 1.2
+  - position: [48, 16, 35] # High goal
+    radius: 1.2
+  - position: [48, 20, 40] # Very high goal
+    radius: 1.2
+  - position: [48, 8, 25] # Middle-high
+    radius: 1.2
