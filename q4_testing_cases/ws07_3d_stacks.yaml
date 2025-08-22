@@ -1,0 +1,89 @@
+bounds:
+  x: [0, 50]
+  y: [0, 50]
+  z: [0, 50]
+
+initial_configuration:
+  - [2, 6, 1]
+  - [2, 8, 1.2]
+  - [2, 10, 1]
+  - [2, 12, 1.2]
+  - [2, 14, 1]
+  - [2, 16, 1.2]
+  - [4, 6, 1]
+  - [4, 8, 1.2]
+  - [4, 10, 1]
+  - [4, 12, 1.2]
+  - [4, 14, 1]
+  - [4, 16, 1.2]
+
+obstacles:
+  # 立柱阵列（圆柱）：在 (x,y) 网格上布桩，留出通道
+  - type: cylinder
+    endpoints: [[18, 12, 0], [18, 12, 12]]
+    radius: 1.2
+    rotation: [0, 0, 0]
+    color: red
+  - type: cylinder
+    endpoints: [[24, 18, 0], [24, 18, 12]]
+    radius: 1.2
+    rotation: [0, 0, 0]
+    color: red
+  - type: cylinder
+    endpoints: [[30, 12, 0], [30, 12, 12]]
+    radius: 1.2
+    rotation: [0, 0, 0]
+    color: red
+  - type: cylinder
+    endpoints: [[36, 18, 0], [36, 18, 12]]
+    radius: 1.2
+    rotation: [0, 0, 0]
+    color: red
+
+  # 架层板（箱体）：在 z=8 与 z=14 形成“货架层”，中间留孔洞作为竖直通道
+  - type: box
+    position: [27, 15, 8]   # 下层板（x向较长，y向较短），在中部预留孔洞（通过分段实现）
+    size: [36, 6, 1.0]
+    rotation: [0, 0, 0]
+    color: red
+  - type: box
+    position: [12, 15, 8]   # 与上层板错位，形成通道
+    size: [16, 6, 1.0]
+    rotation: [0, 0, 0]
+    color: red
+  - type: box
+    position: [27, 15, 14]  # 上层板
+    size: [16, 6, 1.0]
+    rotation: [0, 0, 0]
+    color: red
+  - type: box
+    position: [42, 15, 14]
+    size: [16, 6, 1.0]
+    rotation: [0, 0, 0]
+    color: red
+
+goals:
+  - position: [48, 6, 3]
+    radius: 1.0
+  - position: [48, 8, 3]
+    radius: 1.0
+  - position: [48, 10, 3]
+    radius: 1.0
+  - position: [48, 12, 3]
+    radius: 1.0
+  - position: [48, 14, 3]
+    radius: 1.0
+  - position: [48, 16, 3]
+    radius: 1.0
+  - position: [46, 6, 9]   # 引导穿越下层板孔洞后再上升
+    radius: 1.0
+  - position: [46, 8, 9]
+    radius: 1.0
+  - position: [46, 10, 9]
+    radius: 1.0
+  - position: [46, 12, 9]
+    radius: 1.0
+  - position: [46, 14, 9]
+    radius: 1.0
+  - position: [46, 16, 9]
+    radius: 1.0

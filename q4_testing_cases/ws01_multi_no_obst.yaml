@@ -1,0 +1,23 @@
+# 6 架、无遮挡，仅考察多机耦合
+bounds:
+  x: [0, 50]
+  y: [0, 50]
+  z: [0, 50]
+
+initial_configuration: [[2, 6, 1], [2, 8, 1], [2, 10, 1], [2, 12, 1], [2, 14, 1], [2, 16, 1]]
+
+obstacles: [] # no obstacles
+
+goals:
+  - position: [48, 6, 2]   # drone-1
+    radius: 1.0
+  - position: [48, 8, 2]   # drone-2
+    radius: 1.0
+  - position: [48, 10, 2]  # drone-3
+    radius: 1.0
+  - position: [48, 12, 2]  # drone-4
+    radius: 1.0
+  - position: [48, 14, 2]  # drone-5
+    radius: 1.0
+  - position: [48, 16, 2]  # drone-6
+    radius: 1.0

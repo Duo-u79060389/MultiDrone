@@ -1,0 +1,13 @@
+# 基线：1 架无人机、无遮挡
+bounds:
+  x: [0, 50] # x-bounds
+  y: [0, 50] # y-bounds
+  z: [0, 50] # z-bounds
+
+initial_configuration: [[2, 2, 1]] # The initial configuration (3D position) of all drones
+
+obstacles: [] # no obstacles
+
+goals:
+  - position: [48, 48, 2] # The 3D position of the first goal
+    radius: 1.0 # The radius of the first goal

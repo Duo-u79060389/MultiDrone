@@ -1,0 +1,44 @@
+bounds:
+  x: [0, 50]
+  y: [0, 50]
+  z: [0, 50]
+
+initial_configuration:
+  - [2, 6, 1]
+  - [2, 8, 1]
+  - [2, 10, 1]
+  - [2, 12, 1]
+  - [2, 14, 1]
+  - [2, 16, 1]
+  - [2, 18, 1]
+  - [2, 20, 1]
+
+obstacles:
+  - type: sphere {position: [16, 12, 2], radius: 1.8, color: red}
+  - type: sphere {position: [19, 18, 2], radius: 1.6, color: red}
+  - type: sphere {position: [22, 10, 2], radius: 2.0, color: red}
+  - type: sphere {position: [26, 16, 3], radius: 1.7, color: red}
+  - type: sphere {position: [30, 13, 2], radius: 2.0, color: red}
+  - type: sphere {position: [33, 20, 2], radius: 1.9, color: red}
+  - type: sphere {position: [36, 15, 2], radius: 1.8, color: red}
+  - type: sphere {position: [28, 28, 3], radius: 2.1, color: red}
+  - type: sphere {position: [34, 30, 2], radius: 1.7, color: red}
+  - type: sphere {position: [40, 22, 2], radius: 1.9, color: red}
+
+goals:
+  - position: [48, 6, 2]
+    radius: 1.0
+  - position: [48, 8, 2]
+    radius: 1.0
+  - position: [48, 10, 2]
+    radius: 1.0
+  - position: [48, 12, 2]
+    radius: 1.0
+  - position: [48, 14, 2]
+    radius: 1.0
+  - position: [48, 16, 2]
+    radius: 1.0
+  - position: [48, 18, 2]
+    radius: 1.0
+  - position: [48, 20, 2]
+    radius: 1.0

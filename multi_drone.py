@@ -4,12 +4,14 @@ import numpy as np
 from vedo import Plotter, Line, Box, Sphere, Cylinder, color_map
 from scipy.spatial.transform import Rotation as R
 
+
 def euler_deg_to_matrix(euler_deg):
     """Convert Euler angles [roll, pitch, yaw] in degrees to a 3x3 rotation matrix."""
     if not euler_deg:
         return np.eye(3)
     r = R.from_euler('xyz', euler_deg, degrees=True)
     return r.as_matrix()
+
 
 def apply_rotation(obj, euler_deg, point=(0, 0, 0)):
     """Apply Euler rotation [roll, pitch, yaw] in degrees to the given vedo object."""
@@ -19,17 +21,19 @@ def apply_rotation(obj, euler_deg, point=(0, 0, 0)):
         obj.rotate(pitch, axis=(0, 1, 0), point=point)
         obj.rotate(yaw, axis=(0, 0, 1), point=point)
 
+
 def load_obstacles_from_yaml(yaml_path, num_drones=1):
     with open(yaml_path, 'r') as f:
         config = yaml.safe_load(f)
 
     initial_configuration = config.get("initial_configuration", None)
     assert initial_configuration is not None, "No initial_configuration provided"
-    assert len(initial_configuration) == num_drones, "The number of points in the initial configuration must match the number of drones"
+    assert len(
+        initial_configuration) == num_drones, "The number of points in the initial configuration must match the number of drones"
     for position in initial_configuration:
         if len(position) != 3:
             assert False, "Malformed positions in initial_configuration"
-    
+
     initial_configuration = np.array(initial_configuration, dtype=np.float32)
 
     # Validate and parse bounds
@@ -41,9 +45,9 @@ def load_obstacles_from_yaml(yaml_path, num_drones=1):
         y_bounds = bounds_config["y"]
         z_bounds = bounds_config["z"]
         assert (
-            isinstance(x_bounds, list) and len(x_bounds) == 2 and
-            isinstance(y_bounds, list) and len(y_bounds) == 2 and
-            isinstance(z_bounds, list) and len(z_bounds) == 2
+                isinstance(x_bounds, list) and len(x_bounds) == 2 and
+                isinstance(y_bounds, list) and len(y_bounds) == 2 and
+                isinstance(z_bounds, list) and len(z_bounds) == 2
         ), "Each bound (x, y, z) must be a list of two values"
 
         bounds = np.array([x_bounds, y_bounds, z_bounds], dtype=np.float32)  # Shape (3, 2)
@@ -61,7 +65,7 @@ def load_obstacles_from_yaml(yaml_path, num_drones=1):
             if obj["type"] == "box":
                 pos = np.array(obj["position"], dtype=np.float32)
                 size = np.array(obj["size"], dtype=np.float32)
-                box_viz = Box(pos=pos.tolist(), length=size[0], width=size[1], height=size[2]).c(color)            
+                box_viz = Box(pos=pos.tolist(), length=size[0], width=size[1], height=size[2]).c(color)
                 apply_rotation(box_viz, rot_euler, point=pos.tolist())
                 obstacles.append(box_viz)
 
@@ -106,6 +110,7 @@ def load_obstacles_from_yaml(yaml_path, num_drones=1):
     manager.setup()
     return initial_configuration, obstacles, manager, bounds
 
+
 def load_goal_areas_from_yaml(yaml_path):
     with open(yaml_path, 'r') as f:
         config = yaml.safe_load(f)
@@ -126,6 +131,7 @@ def load_goal_areas_from_yaml(yaml_path):
 
     return goal_viz, np.array(goal_positions), np.array(goal_radii)
 
+
 class MultiDrone:
     def __init__(self, num_drones, environment_file="obstacles.yaml"):
         """
@@ -135,7 +141,7 @@ class MultiDrone:
             num_drones (int): Number of drones to simulate.
             dt (float): Simulation time step (in seconds). Only used if dynamics are stepped.
         """
-        self.N = num_drones        
+        self.N = num_drones
         self._drone_radius = 0.3  # Sphere radius used for collision checking
 
         # Placeholder for drone positions
@@ -148,12 +154,14 @@ class MultiDrone:
         self._fcl_objects = [fcl.CollisionObject(fcl.Sphere(self._drone_radius)) for _ in range(self.N)]
 
         # Load environment from YAML
-        self.configuration, self._obstacles_viz, self._obstacles_collision, self._bounds = load_obstacles_from_yaml(environment_file, num_drones=self.N)
+        self.configuration, self._obstacles_viz, self._obstacles_collision, self._bounds = load_obstacles_from_yaml(
+            environment_file, num_drones=self.N)
         self._initial_configuration = self.configuration.copy()
 
         # Load goal areas from YAML
-        self._goal_viz, self._goal_positions, self._goal_radii = load_goal_areas_from_yaml(environment_file)        
-        assert self._goal_positions.shape[0] == num_drones, "You must specify the sample number of goal as there are drones"
+        self._goal_viz, self._goal_positions, self._goal_radii = load_goal_areas_from_yaml(environment_file)
+        assert self._goal_positions.shape[
+                   0] == num_drones, "You must specify the sample number of goal as there are drones"
 
         self.reset(self.configuration)
 
@@ -229,7 +237,7 @@ class MultiDrone:
             if rdata.result.is_collision:
                 return False
 
-        # Check drone-drone collisions        
+        # Check drone-drone collisions
         diffs = configuration[:, np.newaxis, :] - configuration[np.newaxis, :, :]  # (N, N, 3)
         dists = np.linalg.norm(diffs, axis=-1)  # (N, N)
         mask = np.triu(np.ones((self.N, self.N), dtype=bool), k=1)  # upper triangle, no diag
@@ -243,7 +251,7 @@ class MultiDrone:
         Check whether the given straight-line motion between configuration_0 and configuration_1 is valid:
         - All drones remain within bounds during the motion
         - No drone collides with an obstacle durin the motion
-        - No drone collides with another drone during the motion        
+        - No drone collides with another drone during the motion
 
         Args:
             configuration_0 (np.ndarray): Start positions of all drones, shape (N, 3).
@@ -257,7 +265,7 @@ class MultiDrone:
 
         max_dist = np.linalg.norm(configuration_1 - configuration_0, axis=1).max()
         if max_dist < 1e-6:
-            return not self.collides(configuration_0)
+            return self.is_valid(configuration_0)
 
         step_size = self._drone_radius * 0.5
         num_steps = int(np.ceil(max_dist / step_size))
@@ -284,7 +292,7 @@ class MultiDrone:
         assert configuration.shape == (self.N, 3), f"Expected configuration shape ({self.N}, 3)"
 
         distances = np.linalg.norm(configuration - self._goal_positions, axis=1)
-        return np.all(distances <= self._goal_radii) 
+        return np.all(distances <= self._goal_radii)
 
     def _init_plot(self):
         self._plotter = Plotter(interactive=False)
@@ -303,9 +311,8 @@ class MultiDrone:
         visuals_flat.extend(self._obstacles_viz)
         visuals_flat.extend(self._goal_viz)
 
-
         self._plotter.show(
-            *visuals_flat, 
+            *visuals_flat,
             axes=dict(
                 xrange=(0, 50),
                 yrange=(0, 50),
@@ -314,9 +321,9 @@ class MultiDrone:
                 yzgrid=True,
                 zxgrid=True,
             ),
-            viewup='z', 
+            viewup='z',
             interactive=False,
-            mode=8,            
+            mode=8,
         )
 
     def _update_plot(self):
@@ -327,9 +334,9 @@ class MultiDrone:
 
             # Update arms
             arm1_p1 = pos + np.array([-arm_len, 0, 0])
-            arm1_p2 = pos + np.array([ arm_len, 0, 0])
+            arm1_p2 = pos + np.array([arm_len, 0, 0])
             arm2_p1 = pos + np.array([0, -arm_len, 0])
-            arm2_p2 = pos + np.array([0,  arm_len, 0])
+            arm2_p2 = pos + np.array([0, arm_len, 0])
 
             self._plotter.remove(arm1)
             self._plotter.remove(arm2)
@@ -381,5 +388,5 @@ class MultiDrone:
         self.set_configuration(path[-1])
 
         # Redraw scene
-        self._update_plot()        
+        self._update_plot()
         self._plotter.interactive()
